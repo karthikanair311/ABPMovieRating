@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Abp.Auditing;
+using Abp.AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovieRating.Movies.Dto
 {
-
+    [AutoMapFrom(typeof(AuditLog))]
     public class AuditListDto
     {
         public virtual DateTime ExecutionTime { get; set; }
