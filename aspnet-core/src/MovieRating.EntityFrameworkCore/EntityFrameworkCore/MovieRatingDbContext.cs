@@ -22,5 +22,11 @@ namespace MovieRating.EntityFrameworkCore
         public DbSet<ActorDetails> Actors { get; set; }
         public DbSet<MovieCast> Casts { get; set; }
         public DbSet<RatingDetails> Ratings { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<MovieDetails>().Property(p => p.Genre).HasDefaultValue(GenreType.Action);
+        }
     }
 }

@@ -17,8 +17,8 @@ namespace MovieRating.Movies.Dto
         [StringLength(30, MinimumLength = 3)]
         public string Title { get; set; }
         [Required]
-        [StringLength(15, MinimumLength = 3)]
-        public string Genre { get; set; }
+       /// [StringLength(15, MinimumLength = 3)]
+        public GenreType Genre { get; set; }
         [Required]
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }

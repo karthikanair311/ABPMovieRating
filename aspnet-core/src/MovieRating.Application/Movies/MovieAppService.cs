@@ -10,6 +10,7 @@ using Abp.Authorization;
 using MovieRating.Movies.Dto;
 using System.Linq;
 using Abp.Auditing;
+using System;
 
 namespace MovieRating.Movies
 {
@@ -69,7 +70,10 @@ namespace MovieRating.Movies
 
         public PagedResultDto<MovieListDto> GetMovieItems(GetAllMovieInput input)
         {
-            var movieQuery = _movieRepository.GetAll().WhereIf(!input.Genre.IsNullOrEmpty(), t => t.Genre.Contains(input.Genre));
+            // var movieQuery = _movieRepository.GetAll().WhereIf(!input.Genre.IsNullOrEmpty(), t => t.Genre.ToString().Contains(input.Genre));
+            var movieQuery = _movieRepository.GetAll().Where(t => t.Genre == input.Genre)
+                .WhereIf(!input.Filter.IsNullOrEmpty(), t =>// t.Genre.ToString().Contains(input.Filter)|| 
+                t.Title.Contains(input.Filter)); //Contains(input.Genre));
 
             var pagedResult = movieQuery.OrderBy(p => p.Genre).Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
 
@@ -78,6 +82,20 @@ namespace MovieRating.Movies
             var moviemapped = ObjectMapper.Map<List<MovieListDto>>(pagedResult);
             return new PagedResultDto<MovieListDto>(totalcount, moviemapped);
 
+
+        }
+        public  List<NameValueDto<int>> GetAllGenreTypes()
+        {
+            var genreList  = Enum.GetValues(typeof(GenreType)).Cast<GenreType>().Select(t => new NameValueDto<int>
+            {
+                Name = t.ToString(),
+                Value = (int)t
+            })
+                .ToList();
+            //SELECT(T => new NameValueDto<int> { Name = t.ToString(), Value = (int)t }
+            //NameValueDto<int> abc;
+            //abc.
+            return genreList;
 
         }
     }

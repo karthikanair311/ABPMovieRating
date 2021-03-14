@@ -21,6 +21,7 @@ namespace MovieRating
 
         PagedResultDto<MovieListDto> GetMovieItems(GetAllMovieInput input);
 
+        List<NameValueDto<int>> GetAllGenreTypes();
     }
     
 }

@@ -27,7 +27,7 @@ namespace MovieRating.Movies
         public string Title { get; set; }
         [Required]
         //[StringLength(15, MinimumLength = 3)]
-        public string Genre { get; set; }
+        public GenreType Genre { get; set; }
 
         //    public List<SelectListItem> Genre { get; set; } = new List<SelectListItem>
         //{
@@ -50,21 +50,19 @@ namespace MovieRating.Movies
         public DateTime? LastModificationTime { get ; set ; }
 
 
-        public enum GenreType
-        {
-            SciFic,
-            Action,
-            Animation,
-            Horror,
-            Comedy,
-            Crime
-
-        }
-
-
         public ICollection<RatingDetails> MovieRatings { get; set; }
 
         public ICollection<MovieCast> CastList { get; set; }
+
+    }
+    public enum GenreType
+    {
+        SciFic,
+        Action,
+        Animation,
+        Horror,
+        Comedy,
+        Crime
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MovieRating.Movies;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,9 +10,9 @@ namespace MovieRating
 {
     public class GetAllMovieInput : PagedResultRequestDto
     {
-        public string Genre { get; set; }
+        public GenreType Genre { get; set; }
 
-        // public string Filter { get; set; }
+        public string Filter { get; set; }
 
     }
 }

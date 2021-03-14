@@ -1592,10 +1592,10 @@ namespace MovieRating.Migrations
                     b.Property<long?>("CreatorUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                    b.Property<int>("Genre")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2");
@@ -1955,7 +1955,7 @@ namespace MovieRating.Migrations
                         .IsRequired();
 
                     b.HasOne("MovieRating.Movies.MovieDetails", "MovieDetails")
-                        .WithMany()
+                        .WithMany("CastList")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2010,7 +2010,7 @@ namespace MovieRating.Migrations
                         .IsRequired();
 
                     b.HasOne("MovieRating.Movies.MovieDetails", "MovieDetails")
-                        .WithMany()
+                        .WithMany("MovieRatings")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2089,6 +2089,13 @@ namespace MovieRating.Migrations
                     b.Navigation("Settings");
 
                     b.Navigation("Tokens");
+                });
+
+            modelBuilder.Entity("MovieRating.Movies.MovieDetails", b =>
+                {
+                    b.Navigation("CastList");
+
+                    b.Navigation("MovieRatings");
                 });
 #pragma warning restore 612, 618
         }
