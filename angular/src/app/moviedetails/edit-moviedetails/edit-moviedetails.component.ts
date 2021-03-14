@@ -41,9 +41,13 @@ export class EditMoviedetailsComponent extends AppComponentBase
 
 
   ngOnInit(): void {
-    console.log(moment(this.moviedetails.releaseDate));
+    // console.log(moment(this.moviedetails.releaseDate));
+    // console.log(this.moviedetails.releaseDate);
+    // console.log(this.moviedetails.releaseDate.toDate()); 
+    // console.log(this.moviedetails.releaseDate.format('YYYY-MM-DD')); 
+    this.moviedetails.releaseDate = this.moviedetails.releaseDate.format('YYYY-MM-DD');
     this.movie = this.moviedetails
-    console.log(this.movie);
+   // console.log(this.movie);
     // this._userService.get(this.id).subscribe((result) => {
     //   this.user = result;
 
