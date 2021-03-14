@@ -52,7 +52,7 @@ export class EditMoviedetailsComponent extends AppComponentBase
     //   this.user = result;
 
     //   this._userService.getRoles().subscribe((result2) => {
-    //     this.roles = result2.items;
+    //     this.roles = result2.items; 
     //     this.setInitialRolesStatus();
     //   });
     // });
