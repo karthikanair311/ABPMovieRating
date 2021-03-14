@@ -185,6 +185,7 @@ export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListD
         }
       );
     } else {
+      
       createOrEditMovie = this._modalService.show(
         EditMoviedetailsComponent,
         {
@@ -192,9 +193,12 @@ export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListD
           initialState: {
            // id: id,
            moviedetails : movie
+           
           },
         }
+        
       );
+      
     }
 
     createOrEditMovie.content.onSave.subscribe(() => {

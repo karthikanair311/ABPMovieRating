@@ -15,6 +15,7 @@ import {
   RoleDto,
   UpdateMovieInput
 } from '@shared/service-proxies/service-proxies';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-edit-moviedetails',
@@ -38,8 +39,11 @@ export class EditMoviedetailsComponent extends AppComponentBase
     super(injector);
   }
 
+
   ngOnInit(): void {
+    console.log(moment(this.moviedetails.releaseDate));
     this.movie = this.moviedetails
+    console.log(this.movie);
     // this._userService.get(this.id).subscribe((result) => {
     //   this.user = result;
 
