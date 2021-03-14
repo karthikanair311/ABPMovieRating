@@ -40,11 +40,9 @@ import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { MoviedetailsComponent } from './moviedetails/moviedetails.component';
 import { CreateMoviedetailsComponent } from './moviedetails/create-moviedetails/create-moviedetails.component';
-import { ActordetailsComponent } from './actordetails/actordetails.component';
-import { CreateActorComponent } from './actordetails/create-actordetails/create-actor.component';
-import { EditActordetailsComponent } from './actordetails/edit-actordetails/edit-actordetails.component';
 import { ViewMoviedetailsComponent } from './moviedetails/view-moviedetails/view-moviedetails.component';
 import { EditMoviedetailsComponent } from './moviedetails/edit-moviedetails/edit-moviedetails.component';
+import { AuditlogdetailsComponent } from './auditlogdetails/auditlogdetails.component';
 
 @NgModule({
   declarations: [
@@ -77,11 +75,9 @@ import { EditMoviedetailsComponent } from './moviedetails/edit-moviedetails/edit
     SidebarMenuComponent,
     MoviedetailsComponent,
     CreateMoviedetailsComponent,
-    ActordetailsComponent,
-    CreateActorComponent,
-    EditActordetailsComponent,
     ViewMoviedetailsComponent,
-    EditMoviedetailsComponent
+    EditMoviedetailsComponent,
+    AuditlogdetailsComponent
   ],
   imports: [
     CommonModule,

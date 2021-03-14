@@ -11,7 +11,7 @@ import {
   MovieServiceProxy,
   MovieListDto,
   UpdateMovieInput,
-  MovieListDtoListResultDto,
+  //MovieListDtoListResultDto,
   MovieListDtoPagedResultDto
  
 } from '@shared/service-proxies/service-proxies';

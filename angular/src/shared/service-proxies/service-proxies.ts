@@ -444,15 +444,15 @@ export class MovieServiceProxy {
     }
 
     /**
-     * @param genre (optional) 
+     * @param apiName (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(genre: string | null | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<MovieListDtoListResultDto> {
-        let url_ = this.baseUrl + "/api/services/app/Movie/GetAll?";
-        if (genre !== undefined)
-            url_ += "Genre=" + encodeURIComponent("" + genre) + "&";
+    getAllAuditLogs(apiName: string | null | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<AuditListDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Movie/GetAllAuditLogs?";
+        if (apiName !== undefined)
+            url_ += "ApiName=" + encodeURIComponent("" + apiName) + "&";
         if (skipCount === null)
             throw new Error("The parameter 'skipCount' cannot be null.");
         else if (skipCount !== undefined)
@@ -472,20 +472,20 @@ export class MovieServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAll(response_);
+            return this.processGetAllAuditLogs(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAll(<any>response_);
+                    return this.processGetAllAuditLogs(<any>response_);
                 } catch (e) {
-                    return <Observable<MovieListDtoListResultDto>><any>_observableThrow(e);
+                    return <Observable<AuditListDtoPagedResultDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<MovieListDtoListResultDto>><any>_observableThrow(response_);
+                return <Observable<AuditListDtoPagedResultDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<MovieListDtoListResultDto> {
+    protected processGetAllAuditLogs(response: HttpResponseBase): Observable<AuditListDtoPagedResultDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -496,7 +496,7 @@ export class MovieServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = MovieListDtoListResultDto.fromJS(resultData200);
+            result200 = AuditListDtoPagedResultDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -504,7 +504,7 @@ export class MovieServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<MovieListDtoListResultDto>(<any>null);
+        return _observableOf<AuditListDtoPagedResultDto>(<any>null);
     }
 
     /**
@@ -2904,13 +2904,18 @@ export interface IChangeUiThemeInput {
     theme: string;
 }
 
-export class MovieListDto implements IMovieListDto {
-    title: string | undefined;
-    genre: string | undefined;
-    releaseDate: moment.Moment;
-    id: number;
+export class AuditListDto implements IAuditListDto {
+    executionTime: moment.Moment;
+    exception: string | undefined;
+    executionDuration: number;
+    returnValue: string | undefined;
+    methodName: string | undefined;
+    serviceName: string | undefined;
+    userId: number | undefined;
+    parameters: string | undefined;
+    customData: string | undefined;
 
-    constructor(data?: IMovieListDto) {
+    constructor(data?: IAuditListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2921,48 +2926,64 @@ export class MovieListDto implements IMovieListDto {
 
     init(_data?: any) {
         if (_data) {
-            this.title = _data["title"];
-            this.genre = _data["genre"];
-            this.releaseDate = _data["releaseDate"] ? moment(_data["releaseDate"].toString()) : <any>undefined;
-            this.id = _data["id"];
+            this.executionTime = _data["executionTime"] ? moment(_data["executionTime"].toString()) : <any>undefined;
+            this.exception = _data["exception"];
+            this.executionDuration = _data["executionDuration"];
+            this.returnValue = _data["returnValue"];
+            this.methodName = _data["methodName"];
+            this.serviceName = _data["serviceName"];
+            this.userId = _data["userId"];
+            this.parameters = _data["parameters"];
+            this.customData = _data["customData"];
         }
     }
 
-    static fromJS(data: any): MovieListDto {
+    static fromJS(data: any): AuditListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new MovieListDto();
+        let result = new AuditListDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["title"] = this.title;
-        data["genre"] = this.genre;
-        data["releaseDate"] = this.releaseDate ? this.releaseDate.toISOString() : <any>undefined;
-        data["id"] = this.id;
+        data["executionTime"] = this.executionTime ? this.executionTime.toISOString() : <any>undefined;
+        data["exception"] = this.exception;
+        data["executionDuration"] = this.executionDuration;
+        data["returnValue"] = this.returnValue;
+        data["methodName"] = this.methodName;
+        data["serviceName"] = this.serviceName;
+        data["userId"] = this.userId;
+        data["parameters"] = this.parameters;
+        data["customData"] = this.customData;
         return data; 
     }
 
-    clone(): MovieListDto {
+    clone(): AuditListDto {
         const json = this.toJSON();
-        let result = new MovieListDto();
+        let result = new AuditListDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IMovieListDto {
-    title: string | undefined;
-    genre: string | undefined;
-    releaseDate: moment.Moment;
-    id: number;
+export interface IAuditListDto {
+    executionTime: moment.Moment;
+    exception: string | undefined;
+    executionDuration: number;
+    returnValue: string | undefined;
+    methodName: string | undefined;
+    serviceName: string | undefined;
+    userId: number | undefined;
+    parameters: string | undefined;
+    customData: string | undefined;
 }
 
-export class MovieListDtoListResultDto implements IMovieListDtoListResultDto {
-    items: MovieListDto[] | undefined;
+export class AuditListDtoPagedResultDto implements IAuditListDtoPagedResultDto {
+    totalCount: number;
+    items: AuditListDto[] | undefined;
 
-    constructor(data?: IMovieListDtoListResultDto) {
+    constructor(data?: IAuditListDtoPagedResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2973,23 +2994,25 @@ export class MovieListDtoListResultDto implements IMovieListDtoListResultDto {
 
     init(_data?: any) {
         if (_data) {
+            this.totalCount = _data["totalCount"];
             if (Array.isArray(_data["items"])) {
                 this.items = [] as any;
                 for (let item of _data["items"])
-                    this.items.push(MovieListDto.fromJS(item));
+                    this.items.push(AuditListDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): MovieListDtoListResultDto {
+    static fromJS(data: any): AuditListDtoPagedResultDto {
         data = typeof data === 'object' ? data : {};
-        let result = new MovieListDtoListResultDto();
+        let result = new AuditListDtoPagedResultDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
         if (Array.isArray(this.items)) {
             data["items"] = [];
             for (let item of this.items)
@@ -2998,16 +3021,17 @@ export class MovieListDtoListResultDto implements IMovieListDtoListResultDto {
         return data; 
     }
 
-    clone(): MovieListDtoListResultDto {
+    clone(): AuditListDtoPagedResultDto {
         const json = this.toJSON();
-        let result = new MovieListDtoListResultDto();
+        let result = new AuditListDtoPagedResultDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IMovieListDtoListResultDto {
-    items: MovieListDto[] | undefined;
+export interface IAuditListDtoPagedResultDto {
+    totalCount: number;
+    items: AuditListDto[] | undefined;
 }
 
 export class CreateMovieInput implements ICreateMovieInput {
@@ -3112,6 +3136,61 @@ export class UpdateMovieInput implements IUpdateMovieInput {
 export interface IUpdateMovieInput {
     title: string;
     genre: string;
+    releaseDate: moment.Moment;
+    id: number;
+}
+
+export class MovieListDto implements IMovieListDto {
+    title: string | undefined;
+    genre: string | undefined;
+    releaseDate: moment.Moment;
+    id: number;
+
+    constructor(data?: IMovieListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.title = _data["title"];
+            this.genre = _data["genre"];
+            this.releaseDate = _data["releaseDate"] ? moment(_data["releaseDate"].toString()) : <any>undefined;
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): MovieListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MovieListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["genre"] = this.genre;
+        data["releaseDate"] = this.releaseDate ? this.releaseDate.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): MovieListDto {
+        const json = this.toJSON();
+        let result = new MovieListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IMovieListDto {
+    title: string | undefined;
+    genre: string | undefined;
     releaseDate: moment.Moment;
     id: number;
 }
