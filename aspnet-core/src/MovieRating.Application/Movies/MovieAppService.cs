@@ -10,6 +10,8 @@ using Abp.Authorization;
 using MovieRating.Movies.Dto;
 using System.Linq;
 using Abp.Auditing;
+using MovieRating.MovCast;
+using MovieRating.ActorInfo.Dto;
 
 namespace MovieRating.Movies
 {
@@ -51,6 +53,23 @@ namespace MovieRating.Movies
             _movieRepository.Insert(movie);
         }
 
+        public async Task AddMovieCastAsync(AddMovieCastInput input)
+        {
+            //var movie = _objectMapper.Map<MovieDetails>(input);
+            var movieData = await _movieRepository.GetAllIncluding(p => p.CastList).FirstOrDefaultAsync(m => m.Id == input.MovieId);
+            if (movieData.CastList.Count(p =>p.ActorId == input.ActorId) != 0)
+            {
+                throw new Abp.UI.UserFriendlyException("Actor already part of Movie Cast");
+            }
+            
+            
+            var movieCast = ObjectMapper.Map<MovieCast>(input);
+
+            movieData.CastList.Add(movieCast);
+            //var movie = new MovieDetails { Title = input.Title, Genre = input.Genre, ReleaseDate = input.ReleaseDate };
+            await _movieRepository.UpdateAsync(movieData);
+        }
+
         public void UpdateMovie(UpdateMovieInput input)
         {
             var movie = _movieRepository.Get(input.Id);
@@ -74,6 +93,25 @@ namespace MovieRating.Movies
             var moviemapped = ObjectMapper.Map<List<MovieListDto>>(pagedResult);
             return new PagedResultDto<MovieListDto>(totalcount, moviemapped);
 
+
+        }
+
+
+
+        public async Task< FullMovieDetailsListDto> GetMovieDetails(EntityDto<int> input)
+        {
+            var movieData = await _movieRepository
+                .GetAllIncluding(p => p.MovieRatings)
+                .Include(m => m.CastList).ThenInclude(n => n.ActorDetails)
+                .FirstOrDefaultAsync(m => m.Id == input.Id)
+                ;
+            var movieDto =  ObjectMapper.Map<FullMovieDetailsListDto>(movieData);
+            var actorDetails = movieData.CastList.Select(t => t.ActorDetails);
+            movieDto.CastList = ObjectMapper.Map<List<ActorListDto>>(actorDetails);
+            return movieDto;
+            //.Select(p => new FullMovieDetailsListDto{ })
+
+            //.Include(p => p.MovieRating)
 
         }
     }

@@ -120,39 +120,6 @@ export class AuditlogdetailsComponent extends PagedListingComponentBase<UserDto>
     // );
   }
 
-  // private showResetPasswordUserDialog(id?: number): void {
-  //   this._modalService.show(ResetPasswordDialogComponent, {
-  //     class: 'modal-lg',
-  //     initialState: {
-  //       id: id,
-  //     },
-  //   });
-  // }
-
-  // private showCreateOrEditUserDialog(id?: number): void {
-  //   let createOrEditUserDialog: BsModalRef;
-  //   if (!id) {
-  //     createOrEditUserDialog = this._modalService.show(
-  //       CreateUserDialogComponent,
-  //       {
-  //         class: 'modal-lg',
-  //       }
-  //     );
-  //   } else {
-  //     createOrEditUserDialog = this._modalService.show(
-  //       EditUserDialogComponent,
-  //       {
-  //         class: 'modal-lg',
-  //         initialState: {
-  //           id: id,
-  //         },
-  //       }
-  //     );
-  //   }
-
-  //   createOrEditUserDialog.content.onSave.subscribe(() => {
-  //     this.refresh();
-  //   });
-  // }
+  
 }
 

@@ -64,11 +64,11 @@ export class ActordetailsComponent extends PagedListingComponentBase<ActorListDt
   }
 
   createActor(): void {
-    this.showCreateOrEditUserDialog();
+   // this.showCreateOrEditUserDialog();
   }
 
   editActor(user: UserDto): void {
-    this.showCreateOrEditUserDialog(user.id);
+   // this.showCreateOrEditUserDialog(user.id);
   }
 
   
@@ -132,38 +132,9 @@ export class ActordetailsComponent extends PagedListingComponentBase<ActorListDt
     );
   }
 
-  private showResetPasswordUserDialog(id?: number): void {
-    this._modalService.show(ResetPasswordDialogComponent, {
-      class: 'modal-lg',
-      initialState: {
-        id: id,
-      },
-    });
-  }
+ 
 
-  private showCreateOrEditUserDialog(id?: number): void {
-    let createOrEditUserDialog: BsModalRef;
-    if (!id) {
-      createOrEditUserDialog = this._modalService.show(
-        CreateUserDialogComponent,
-        {
-          class: 'modal-lg',
-        }
-      );
-    } else {
-      createOrEditUserDialog = this._modalService.show(
-        EditUserDialogComponent,
-        {
-          class: 'modal-lg',
-          initialState: {
-            id: id,
-          },
-        }
-      );
-    }
+  
 
-    createOrEditUserDialog.content.onSave.subscribe(() => {
-      this.refresh();
-    });
-  }
+    
 }

@@ -47,7 +47,6 @@ namespace MovieRating.Movies
         public long? LastModifierUserId { get ; set ; }
         public DateTime? LastModificationTime { get ; set ; }
 
-
         public enum GenreType
         {
             SciFic,
@@ -59,9 +58,7 @@ namespace MovieRating.Movies
 
         }
 
-
         public ICollection<RatingDetails> MovieRatings { get; set; }
-
         public ICollection<MovieCast> CastList { get; set; }
 
     }

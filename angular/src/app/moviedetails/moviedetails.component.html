@@ -177,7 +177,6 @@
                       <i class="fas fa-pencil-alt"></i>
                       {{ "Edit" | localize }}
                     </button>
-                    
                     <button
                       type="button"
                       class="btn btn-sm bg-danger mx-2"
@@ -186,6 +185,14 @@
                       <i class="fas fa-trash"></i>
                       {{ "Delete" | localize }}
                     </button>
+                    <button
+                    type="button"
+                    class="btn btn-sm bg-primary mx-2"
+                    (click)="delete(movie)"
+                  >
+                    <i class="fas fa-pencil-alt"></i>
+                    {{ "Rate Movie" | localize }}
+                  </button>
                     
                   </td>
                 </tr>

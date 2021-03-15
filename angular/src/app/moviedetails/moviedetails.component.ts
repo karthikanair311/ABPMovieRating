@@ -18,6 +18,7 @@ import {
 import { CreateMoviedetailsComponent } from './create-moviedetails/create-moviedetails.component';
 import { EditMoviedetailsComponent } from './edit-moviedetails/edit-moviedetails.component';
 import { ViewMoviedetailsComponent } from './view-moviedetails/view-moviedetails.component';
+//import { CreaterateMoviedetailsComponent } from './createrate-moviedetails/createrate-moviedetails.component';
 
 
 class PagedMovieRequestDto extends PagedRequestDto {
@@ -76,6 +77,10 @@ export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListD
 
   // viewMovie(movie: MovieListDto): void {
   //   this.getAllMovies(movie.genre, movie.title, movie.releaseDate)
+  // }
+
+  // createRating(): void {
+  //   this.showCreateRateMovie();
   // }
   
 
@@ -147,7 +152,20 @@ export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListD
     );
   }
 
- 
+  // private showCreateRateMovie (id?: number): void {
+  //   let CreateRateMovie: BsModalRef;
+  //   if (!id) {
+  //     CreateRateMovie = this._modalService.show(
+  //       CreaterateMoviedetailsComponent,
+  //       {
+  //         class: 'modal-lg',
+  //       }
+  //     );
+  //   }
+
+  // }
+
+
 
   private showCreateOrEditMovie (id?: number): void {
     let createOrEditMovie: BsModalRef;
@@ -204,5 +222,8 @@ export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListD
     createOrEditMovie.content.onSave.subscribe(() => {
       this.refresh();
     });
+
+   
+
   }
 }

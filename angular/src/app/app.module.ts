@@ -45,6 +45,9 @@ import { EditMoviedetailsComponent } from './moviedetails/edit-moviedetails/edit
 import { AuditlogdetailsComponent } from './auditlogdetails/auditlogdetails.component';
 import { ActordetailsComponent } from './actorinfo/actordetails.component';
 import { EditActorComponent } from './actorinfo/edit-actor/edit-actor.component';
+import { RateMovieComponent } from './rate-movie/rate-movie.component';
+
+
 
 @NgModule({
   declarations: [
@@ -81,7 +84,9 @@ import { EditActorComponent } from './actorinfo/edit-actor/edit-actor.component'
     EditMoviedetailsComponent,
     AuditlogdetailsComponent,
     ActordetailsComponent,
-    EditActorComponent
+    EditActorComponent,
+    RateMovieComponent
+    
   ],
   imports: [
     CommonModule,
