@@ -30,10 +30,7 @@ namespace MovieRating.Movies
         public async Task<PagedResultDto<AuditListDto>> GetAllAuditLogs(GetAllAuditInput input)
         {
             var auditQuery = _auditlogRepository.GetAll()
-                .WhereIf (! input.ApiName.IsNullOrEmpty(), t => t.MethodName == input.ApiName)
-                //.ToListAsync()
-                ;
-
+                .WhereIf(!input.ApiName.IsNullOrEmpty(), t => t.MethodName == input.ApiName); //.ToListAsync()
 
             var pagedResult = await auditQuery.OrderByDescending(p => p.Id)
                 .Skip(input.SkipCount)
@@ -43,8 +40,7 @@ namespace MovieRating.Movies
             var totalcount = auditQuery.Count();
 
             var auditLogMapped = ObjectMapper.Map<List<AuditListDto>>(pagedResult);
-            return new PagedResultDto<AuditListDto>(totalcount, auditLogMapped);
-           
+            return new PagedResultDto<AuditListDto>(totalcount, auditLogMapped); 
         }
 
         public void CreateMovie(CreateMovieInput input)

@@ -43,6 +43,8 @@ import { CreateMoviedetailsComponent } from './moviedetails/create-moviedetails/
 import { ViewMoviedetailsComponent } from './moviedetails/view-moviedetails/view-moviedetails.component';
 import { EditMoviedetailsComponent } from './moviedetails/edit-moviedetails/edit-moviedetails.component';
 import { AuditlogdetailsComponent } from './auditlogdetails/auditlogdetails.component';
+import { ActordetailsComponent } from './actorinfo/actordetails.component';
+import { EditActorComponent } from './actorinfo/edit-actor/edit-actor.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,9 @@ import { AuditlogdetailsComponent } from './auditlogdetails/auditlogdetails.comp
     CreateMoviedetailsComponent,
     ViewMoviedetailsComponent,
     EditMoviedetailsComponent,
-    AuditlogdetailsComponent
+    AuditlogdetailsComponent,
+    ActordetailsComponent,
+    EditActorComponent
   ],
   imports: [
     CommonModule,

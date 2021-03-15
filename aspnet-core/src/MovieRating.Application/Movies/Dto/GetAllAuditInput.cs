@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovieRating.Movies.Dto
 {
-    //[AutoMapTo(typeof(AuditListDto))]
+   
     public class GetAllAuditInput: PagedResultRequestDto
     {
         public string ApiName { get; set; }

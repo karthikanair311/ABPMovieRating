@@ -20,9 +20,7 @@ namespace MovieRating.Movies
         //  [ForeignKey("CreatorUserId")]
         // public User CreatorUser { get; set; }
 
-
-
-    [Required]
+        [Required]
         [StringLength(30, MinimumLength = 3)]
         public string Title { get; set; }
         [Required]
