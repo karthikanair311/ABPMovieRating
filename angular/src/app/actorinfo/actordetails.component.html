@@ -5,12 +5,14 @@
           <div class="col-6">
             <h1>{{ "Actor Details" | localize }}</h1>
           </div>
+          <ng-template [ngIf]="isAdmin">
           <div class="col-6 text-right">
             <a href="javascript:;" class="btn bg-blue" (click)="createActor()">
               <i class="fa fa-plus-square"></i>
               {{ "Create" | localize }}
             </a>
           </div>
+        </ng-template>
         </div>
       </div>
     </section>
@@ -159,16 +161,8 @@
                   <!-- <td>{{ movie.releaseDate }}</td> -->
                  
                  
+                  <ng-template [ngIf]="isAdmin">
                   <td>
-                    <button
-                      type="button"
-                      class="btn btn-sm bg-success"
-                      (click)="editActor(actor)"
-                    >
-                    <i class="fa fa-eye"></i>
-                      {{ "View" | localize }}
-                    </button>
-                    &nbsp;
                     <button
                       type="button"
                       class="btn btn-sm bg-secondary"
@@ -188,6 +182,7 @@
                     </button>
                     
                   </td>
+                </ng-template>
                 </tr>
               </tbody>
             </table>

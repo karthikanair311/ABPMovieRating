@@ -5,12 +5,14 @@
           <div class="col-6">
             <h1>{{ "Movie Details" | localize }}</h1>
           </div>
+          <ng-template [ngIf]="isAdmin">
           <div class="col-6 text-right">
             <a href="javascript:;" class="btn bg-blue" (click)="createMovie()">
               <i class="fa fa-plus-square"></i>
               {{ "Create" | localize }}
             </a>
           </div>
+        </ng-template>
         </div>
       </div>
     </section>
@@ -159,16 +161,19 @@
                   <!-- <td>{{ movie.releaseDate }}</td> -->
                   <td>{{movie.releaseDate | date: 'dd/MM/yyyy'}}</td>
                  
-                  <td>
+                  
+                  <td >
+                  
                     <button
                       type="button"
                       class="btn btn-sm bg-success"
-                      (click)="editMovie(movie)"
+                      (click)="navigatetoAllDetails(movie)"
                     >
                     <i class="fa fa-eye"></i>
                       {{ "View" | localize }}
                     </button>
                     &nbsp;
+                    <ng-template [ngIf]="isAdmin">
                     <button
                       type="button"
                       class="btn btn-sm bg-secondary"
@@ -185,10 +190,11 @@
                       <i class="fas fa-trash"></i>
                       {{ "Delete" | localize }}
                     </button>
+                  </ng-template>
                     <button
                     type="button"
                     class="btn btn-sm bg-primary mx-2"
-                    (click)="delete(movie)"
+                    (click)="createRate(movie)"
                   >
                     <i class="fas fa-pencil-alt"></i>
                     {{ "Rate Movie" | localize }}

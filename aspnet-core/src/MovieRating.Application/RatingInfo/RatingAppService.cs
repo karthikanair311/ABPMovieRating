@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Runtime.Session;
 using MovieRating.Authorization.Users;
@@ -30,21 +31,41 @@ namespace MovieRating.RatingInfo
             return new ListResultDto<RatingListDto>(ObjectMapper.Map<List<RatingListDto>>(ratingdto));
         }
 
-        public  async Task CreateRatingAsync(CreateRatingInput input)
+        public  void CreateRating(CreateRatingInput input)
         {
             //long currentUserId = _abpSession.UserId.Value;
             //var user = await _userManager.GetUserByIdAsync(currentUserId);
             //Console.Write(user);
-            
-            var rating = new RatingDetails
-            {
-                ReviewComments = input.ReviewComments,
-                ReviewStar = input.ReviewStar,
-                MovieId = input.MovieId,
-               // CreatorUser = user
-            };
+
+            //var rating = new RatingDetails
+            //{
+            //    ReviewComments = input.ReviewComments,
+            //    ReviewStar = input.ReviewStar,
+            //    MovieId = input.MovieId,
+            //   // CreatorUser = user
+            //};
+
             //var rating = ObjectMapper.Map<RatingDetails>(input);
-            await _ratingRepository.InsertAsync(rating);
+
+            var m = _ratingRepository.GetAll()
+                .WhereIf(AbpSession.UserId != null, t => t.CreatorUserId == AbpSession.UserId)
+                .Where(t => t.MovieId == input.MovieId)
+                .Count();
+
+            if (m >=1)
+            {
+                throw new Abp.UI.UserFriendlyException("Already the Movie has been Rated by you");
+
+            }
+            else
+            {
+                var rating = ObjectMapper.Map<RatingDetails>(input);
+                _ratingRepository.InsertAsync(rating);
+
+            }
+
+
+            //await _ratingRepository.InsertAsync(rating);
         }
     }
 }

@@ -21,6 +21,8 @@ namespace MovieRating
 
         PagedResultDto<MovieListDto> GetMovieItems(GetAllMovieInput input);
 
+        Task<FullMovieDetailsListDto> GetMovieDetails(EntityDto<int> input);
+
     }
     
 }

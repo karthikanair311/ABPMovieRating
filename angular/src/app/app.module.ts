@@ -40,12 +40,13 @@ import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { MoviedetailsComponent } from './moviedetails/moviedetails.component';
 import { CreateMoviedetailsComponent } from './moviedetails/create-moviedetails/create-moviedetails.component';
-import { ViewMoviedetailsComponent } from './moviedetails/view-moviedetails/view-moviedetails.component';
 import { EditMoviedetailsComponent } from './moviedetails/edit-moviedetails/edit-moviedetails.component';
 import { AuditlogdetailsComponent } from './auditlogdetails/auditlogdetails.component';
 import { ActordetailsComponent } from './actorinfo/actordetails.component';
 import { EditActorComponent } from './actorinfo/edit-actor/edit-actor.component';
 import { RateMovieComponent } from './rate-movie/rate-movie.component';
+import { AllMoviedetailsComponent } from './moviedetails/allmoviedetails/all-moviedetails.component';
+
 
 
 
@@ -80,12 +81,13 @@ import { RateMovieComponent } from './rate-movie/rate-movie.component';
     SidebarMenuComponent,
     MoviedetailsComponent,
     CreateMoviedetailsComponent,
-    ViewMoviedetailsComponent,
     EditMoviedetailsComponent,
     AuditlogdetailsComponent,
     ActordetailsComponent,
     EditActorComponent,
-    RateMovieComponent
+    RateMovieComponent,
+    AllMoviedetailsComponent,
+   
     
   ],
   imports: [

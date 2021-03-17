@@ -1,7 +1,9 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, NgModule } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+//import { Routes, RouterModule } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { Router } from '@angular/router';
 import {
   PagedListingComponentBase,
   PagedRequestDto
@@ -12,13 +14,18 @@ import {
   MovieListDto,
   UpdateMovieInput,
   //MovieListDtoListResultDto,
-  MovieListDtoPagedResultDto
+  MovieListDtoPagedResultDto,
+  RatingListDto
  
 } from '@shared/service-proxies/service-proxies';
+import {AllMoviedetailsComponent } from 'app/moviedetails/allmoviedetails/all-moviedetails.component'
 import { CreateMoviedetailsComponent } from './create-moviedetails/create-moviedetails.component';
+import { RateMovieComponent } from 'app/rate-movie/rate-movie.component';
+
 import { EditMoviedetailsComponent } from './edit-moviedetails/edit-moviedetails.component';
-import { ViewMoviedetailsComponent } from './view-moviedetails/view-moviedetails.component';
+import { PermissionCheckerService } from 'abp-ng2-module';
 //import { CreaterateMoviedetailsComponent } from './createrate-moviedetails/createrate-moviedetails.component';
+
 
 
 class PagedMovieRequestDto extends PagedRequestDto {
@@ -33,11 +40,15 @@ class PagedMovieRequestDto extends PagedRequestDto {
 })
 export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListDto> {
   movies: MovieListDto[] = [];
+  rates: RatingListDto[]=[];
   genre = "";
   isActive: boolean | null;
   advancedFiltersVisible = false;
+  isAdmin = false;
 
   constructor(
+    private _permissionChecker: PermissionCheckerService,
+    private _router: Router,
     injector: Injector,
     private _movieService: MovieServiceProxy,
     private _modalService: BsModalService
@@ -45,8 +56,19 @@ export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListD
     super(injector);
   }
 
+  navigatetoAllDetails(movies: MovieListDto) {
+    console.log(movies);
+    console.log("all details..")
+    //console.log();
+    this._router.navigate(['app/allmoviedetails'],{queryParams:{MovieId: movies.id}});
+    
+  }
+
+
   ngOnInit(): void {
+    
     this.getAllMovies("",0,10);
+    this.isAdmin = this._permissionChecker.isGranted("Pages.Users");
   }
 
   getAllMovies(genre: string, skipCount: number, maxResultCount: number){
@@ -69,6 +91,11 @@ export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListD
      
   createMovie(): void {
     this.showCreateOrEditMovie();
+  }
+
+  createRate(movie: MovieListDto): void {
+    console.log(movie);
+    this.showCreateRate(movie.title, movie.id);
   }
 
   editMovie(movie: UpdateMovieInput): void {
@@ -165,6 +192,20 @@ export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListD
 
   // }
 
+  private showCreateRate(name: string, id: number ):void{
+    let createRating: BsModalRef;
+    createRating = this._modalService.show(
+      RateMovieComponent,
+      {
+        class: 'modal-lg',
+        initialState: {
+          id: id,
+          movieName: name
+        },
+      }
+    );
+    
+  }
 
 
   private showCreateOrEditMovie (id?: number): void {

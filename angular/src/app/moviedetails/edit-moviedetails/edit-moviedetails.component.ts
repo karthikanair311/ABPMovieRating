@@ -44,7 +44,7 @@ export class EditMoviedetailsComponent extends AppComponentBase
     // console.log(moment(this.moviedetails.releaseDate));
     // console.log(this.moviedetails.releaseDate);
     // console.log(this.moviedetails.releaseDate.toDate()); 
-    // console.log(this.moviedetails.releaseDate.format('YYYY-MM-DD')); 
+     console.log(this.moviedetails.releaseDate.format('YYYY-MM-DD')); 
     this.moviedetails.releaseDate = this.moviedetails.releaseDate.format('YYYY-MM-DD');
     this.movie = this.moviedetails
    // console.log(this.movie);

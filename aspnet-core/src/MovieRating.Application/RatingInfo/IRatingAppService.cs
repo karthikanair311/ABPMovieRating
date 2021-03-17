@@ -12,6 +12,7 @@ namespace MovieRating.RatingInfo
     public interface IRatingAppService : IApplicationService
     {
         Task<ListResultDto<RatingListDto>> GetRating();
-        Task CreateRatingAsync(CreateRatingInput input);
+        //Task CreateRatingAsync(CreateRatingInput input);
+        void CreateRating(CreateRatingInput input);
     }
 }

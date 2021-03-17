@@ -1,0 +1,17 @@
+
+<div class="classic-tabs border rounded px-4 pt-1">
+
+  <div class="tab-content" id="advancedTabContent">
+
+    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+      <h1>MOVIE DETAILS</h1>
+      <div class="p-3 mb-2 bg-dark text-white">{{alldetjson.title}}</div>
+      
+        <p class="text-dark">GENRE : {{alldetjson.genre}}</p>
+        <p class="text-dark">MOVIE RELEASE DATE : {{alldetjson.releaseDate |date}}</p>
+        <p class="text-dark">REVIEW COMMENTS : {{alldetjson.movieRatings[0].reviewComments }}</p>
+        <p class="text-dark">ACTOR NAME : {{alldetjson.castList[0].actorName}}</p>
+        <p class="text-dark">ACTOR GENDER : {{alldetjson.castList[0].actorGender}}</p>
+        <p class="text-dark">REVIEW STAR : {{alldetjson.movieRatings[0].reviewStar}}</p>
+    </div>
+</div>

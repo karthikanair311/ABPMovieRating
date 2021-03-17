@@ -9,6 +9,7 @@ import { MoviedetailsComponent } from './moviedetails/moviedetails.component';
 import { ActordetailsComponent } from './actorinfo/actordetails.component';
 import { AuditlogdetailsComponent } from './auditlogdetails/auditlogdetails.component';
 import { RateMovieComponent } from './rate-movie/rate-movie.component';
+import { AllMoviedetailsComponent } from './moviedetails/allmoviedetails/all-moviedetails.component';
 import { TenantsComponent } from './tenants/tenants.component';
 import { RolesComponent } from 'app/roles/roles.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
@@ -23,9 +24,10 @@ import { ChangePasswordComponent } from './users/change-password/change-password
                     { path: 'home', component: HomeComponent,  canActivate: [AppRouteGuard] },
                     { path: 'users', component: UsersComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
                     { path: 'auditlogdetails', component: AuditlogdetailsComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
-                    { path: 'moviedetails', component: MoviedetailsComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
-                    { path: 'actordetails', component: ActordetailsComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
-                    { path: 'ratemovie', component: RateMovieComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
+                    { path: 'moviedetails', component: MoviedetailsComponent, data: { permission: 'Pages.Reviewer' }, canActivate: [AppRouteGuard] },
+                    { path: 'actordetails', component: ActordetailsComponent, data: { permission: 'Pages.Reviewer' }, canActivate: [AppRouteGuard] },
+                    { path: 'ratemovie', component: RateMovieComponent, data: { permission: 'Pages.Reviewer' }, canActivate: [AppRouteGuard] },
+                    { path: 'allmoviedetails', component: AllMoviedetailsComponent, data: { permission: 'Pages.Reviewer' }, canActivate: [AppRouteGuard] },
                     { path: 'roles', component: RolesComponent, data: { permission: 'Pages.Roles' }, canActivate: [AppRouteGuard] },
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent },

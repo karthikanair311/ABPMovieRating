@@ -14,6 +14,7 @@ import {
 } from '@shared/service-proxies/service-proxies';
 import { CreateActorComponent } from './create-actor/create-actor.component';
 import { EditActorComponent } from './edit-actor/edit-actor.component';
+import { PermissionCheckerService } from 'abp-ng2-module';
 
 
 class PagedUsersRequestDto extends PagedRequestDto {
@@ -31,8 +32,10 @@ export class ActordetailsComponent extends PagedListingComponentBase<ActorListDt
   keyword = '';
   isActive: boolean | null;
   advancedFiltersVisible = false;
+  isAdmin = false;
 
   constructor(
+    private _permissionChecker: PermissionCheckerService,
     injector: Injector,
     private _actorService: ActorServiceProxy,
     private _modalService: BsModalService
@@ -43,6 +46,8 @@ export class ActordetailsComponent extends PagedListingComponentBase<ActorListDt
   
   ngOnInit(): void {
     this.getAllActors("");
+   this.isAdmin = this._permissionChecker.isGranted("Pages.Users");
+   console.log(this.isAdmin);
   }
 
   getAllActors(actorGender: string){

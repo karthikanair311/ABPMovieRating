@@ -109,6 +109,7 @@ namespace MovieRating.Movies
             var actorDetails = movieData.CastList.Select(t => t.ActorDetails);
             movieDto.CastList = ObjectMapper.Map<List<ActorListDto>>(actorDetails);
             return movieDto;
+            //return new ListResultDto<FullMovieDetailsListDto>(movieDto);
             //.Select(p => new FullMovieDetailsListDto{ })
 
             //.Include(p => p.MovieRating)
