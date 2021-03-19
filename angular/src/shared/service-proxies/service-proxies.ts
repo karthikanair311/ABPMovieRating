@@ -899,6 +899,62 @@ export class RatingServiceProxy {
     }
 
     /**
+     * @param creatorUserId (optional) 
+     * @return Success
+     */
+    getRatingUser(creatorUserId: number | undefined): Observable<RatingUserDtoListResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Rating/GetRatingUser?";
+        if (creatorUserId === null)
+            throw new Error("The parameter 'creatorUserId' cannot be null.");
+        else if (creatorUserId !== undefined)
+            url_ += "CreatorUserId=" + encodeURIComponent("" + creatorUserId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRatingUser(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRatingUser(<any>response_);
+                } catch (e) {
+                    return <Observable<RatingUserDtoListResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RatingUserDtoListResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRatingUser(response: HttpResponseBase): Observable<RatingUserDtoListResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = RatingUserDtoListResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RatingUserDtoListResultDto>(<any>null);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
@@ -3551,6 +3607,7 @@ export class FullMovieDetailsListDto implements IFullMovieDetailsListDto {
     title: string | undefined;
     genre: string | undefined;
     releaseDate: moment.Moment;
+    isReviewed: boolean;
     movieRatings: RatingListDto[] | undefined;
     castList: ActorListDto[] | undefined;
 
@@ -3568,6 +3625,7 @@ export class FullMovieDetailsListDto implements IFullMovieDetailsListDto {
             this.title = _data["title"];
             this.genre = _data["genre"];
             this.releaseDate = _data["releaseDate"] ? moment(_data["releaseDate"].toString()) : <any>undefined;
+            this.isReviewed = _data["isReviewed"];
             if (Array.isArray(_data["movieRatings"])) {
                 this.movieRatings = [] as any;
                 for (let item of _data["movieRatings"])
@@ -3593,6 +3651,7 @@ export class FullMovieDetailsListDto implements IFullMovieDetailsListDto {
         data["title"] = this.title;
         data["genre"] = this.genre;
         data["releaseDate"] = this.releaseDate ? this.releaseDate.toISOString() : <any>undefined;
+        data["isReviewed"] = this.isReviewed;
         if (Array.isArray(this.movieRatings)) {
             data["movieRatings"] = [];
             for (let item of this.movieRatings)
@@ -3618,6 +3677,7 @@ export interface IFullMovieDetailsListDto {
     title: string | undefined;
     genre: string | undefined;
     releaseDate: moment.Moment;
+    isReviewed: boolean;
     movieRatings: RatingListDto[] | undefined;
     castList: ActorListDto[] | undefined;
 }
@@ -3671,6 +3731,112 @@ export class RatingListDtoListResultDto implements IRatingListDtoListResultDto {
 
 export interface IRatingListDtoListResultDto {
     items: RatingListDto[] | undefined;
+}
+
+export class RatingUserDto implements IRatingUserDto {
+    reviewComments: string | undefined;
+    reviewStar: number;
+    movieId: number;
+    creatorUserId: number;
+
+    constructor(data?: IRatingUserDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.reviewComments = _data["reviewComments"];
+            this.reviewStar = _data["reviewStar"];
+            this.movieId = _data["movieId"];
+            this.creatorUserId = _data["creatorUserId"];
+        }
+    }
+
+    static fromJS(data: any): RatingUserDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RatingUserDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewComments"] = this.reviewComments;
+        data["reviewStar"] = this.reviewStar;
+        data["movieId"] = this.movieId;
+        data["creatorUserId"] = this.creatorUserId;
+        return data; 
+    }
+
+    clone(): RatingUserDto {
+        const json = this.toJSON();
+        let result = new RatingUserDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRatingUserDto {
+    reviewComments: string | undefined;
+    reviewStar: number;
+    movieId: number;
+    creatorUserId: number;
+}
+
+export class RatingUserDtoListResultDto implements IRatingUserDtoListResultDto {
+    items: RatingUserDto[] | undefined;
+
+    constructor(data?: IRatingUserDtoListResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(RatingUserDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): RatingUserDtoListResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RatingUserDtoListResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): RatingUserDtoListResultDto {
+        const json = this.toJSON();
+        let result = new RatingUserDtoListResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRatingUserDtoListResultDto {
+    items: RatingUserDto[] | undefined;
 }
 
 export class CreateRatingInput implements ICreateRatingInput {

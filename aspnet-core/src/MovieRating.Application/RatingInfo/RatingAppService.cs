@@ -2,6 +2,7 @@
 using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Runtime.Session;
+using Microsoft.EntityFrameworkCore;
 using MovieRating.Authorization.Users;
 using MovieRating.RatingInfo.Dto;
 using System;
@@ -29,6 +30,12 @@ namespace MovieRating.RatingInfo
         {
             var ratingdto = await _ratingRepository.GetAllListAsync();
             return new ListResultDto<RatingListDto>(ObjectMapper.Map<List<RatingListDto>>(ratingdto));
+        }
+
+        public async Task<ListResultDto<RatingUserDto>> GetRatingUser(GetAllRatingInput input)
+        {
+            var ratingdto = await _ratingRepository.GetAll().Where(t => t.CreatorUserId == input.CreatorUserId).ToListAsync();
+            return new ListResultDto<RatingUserDto>(ObjectMapper.Map<List<RatingUserDto>>(ratingdto));
         }
 
         public  void CreateRating(CreateRatingInput input)

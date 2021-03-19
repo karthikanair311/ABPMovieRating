@@ -8,6 +8,6 @@ namespace MovieRating.RatingInfo.Dto
 {
     public class GetAllRatingInput
     {
-
+        public long CreatorUserId { get; set; }
     }
 }

@@ -108,6 +108,7 @@ namespace MovieRating.Movies
             var movieDto =  ObjectMapper.Map<FullMovieDetailsListDto>(movieData);
             var actorDetails = movieData.CastList.Select(t => t.ActorDetails);
             movieDto.CastList = ObjectMapper.Map<List<ActorListDto>>(actorDetails);
+            movieDto.isReviewed = movieDto.MovieRatings.Any(p => p.CreatorUser?.Id == AbpSession.UserId);
             return movieDto;
             //return new ListResultDto<FullMovieDetailsListDto>(movieDto);
             //.Select(p => new FullMovieDetailsListDto{ })

@@ -63,7 +63,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         'Pages.Users'
       ),
       new MenuItem(
-        this.l('Movie Details'),
+        this.l('Movie List'),
         '/app/moviedetails',
         'fas fa-users',
         'Pages.Reviewer'

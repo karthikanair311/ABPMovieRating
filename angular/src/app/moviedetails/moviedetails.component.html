@@ -156,6 +156,7 @@
                           }
                   "
                 >
+               
                   <td>{{ movie.title }}</td>
                   <td>{{ movie.genre}}</td>
                   <!-- <td>{{ movie.releaseDate }}</td> -->
@@ -191,15 +192,20 @@
                       {{ "Delete" | localize }}
                     </button>
                   </ng-template>
+                  <!-- <div *ngFor="
+                  let rateU of rateUser"> -->
+                  <!-- {{movie.id}}=={{rateU.movieId}} -->
+                  <ng-template [ngIf]="!(RatedMovieIdList.includes(movie.id)) ">
                     <button
-                    type="button"
-                    class="btn btn-sm bg-primary mx-2"
-                    (click)="createRate(movie)"
-                  >
-                    <i class="fas fa-pencil-alt"></i>
-                    {{ "Rate Movie" | localize }}
-                  </button>
-                    
+                      type="button"
+                      class="btn btn-sm bg-primary mx-2"
+                      (click)="createRate(movie)"
+                    >
+                      <i class="fas fa-pencil-alt"></i>
+                      {{ "Rate Movie" | localize }}
+                    </button>
+                  </ng-template>
+                <!-- </div>    -->
                   </td>
                 </tr>
               </tbody>

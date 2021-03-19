@@ -17,6 +17,7 @@ namespace MovieRating.Movies.Dto
         public DateTime ReleaseDate { get; set; }
         //public string ActorName { get ; set; }
         //public string ActorGender { get; set; }
+        public bool isReviewed { get; set; }
 
         public ICollection<RatingListDto> MovieRatings { get; set; }
 

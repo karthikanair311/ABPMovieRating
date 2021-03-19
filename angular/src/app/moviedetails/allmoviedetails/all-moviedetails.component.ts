@@ -66,6 +66,7 @@ export class AllMoviedetailsComponent extends PagedListingComponentBase<UserDto>
       console.log(data)
       console.log(data.title)
       this.alldets = data;
+      console.log(this.alldets);
       //this.alldets.movieRatings
 
       

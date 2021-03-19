@@ -34,6 +34,7 @@ namespace MovieRating
                     
                     cfg.CreateMap<MovieDetails, FullMovieDetailsListDto>()
                         .ForMember(dto => dto.CastList, options => options.Ignore())//MapFrom(input => input.CastList))
+                        .ForMember(dto => dto.isReviewed, options => options.Ignore())//MapFrom(input => input.CastList))
                         .ForMember(dto => dto.MovieRatings, options => options.MapFrom(input => input.MovieRatings));
                     //cfg.CreateMap<MovieCast, ActorListDto>().IncludeMembers(s =>s.ActorDetails)
                     //   .ForMember(dto => dto, options => options.MapFrom(input => input.ActorDetails));

@@ -4,18 +4,22 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 //import { Routes, RouterModule } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { Router } from '@angular/router';
+import { AbpSessionService } from 'abp-ng2-module';
 import {
   PagedListingComponentBase,
   PagedRequestDto
 } from 'shared/paged-listing-component-base';
 import {
  
+  RatingServiceProxy,
+  RatingListDtoListResultDto,
   MovieServiceProxy,
   MovieListDto,
   UpdateMovieInput,
   //MovieListDtoListResultDto,
   MovieListDtoPagedResultDto,
-  RatingListDto
+  RatingListDto,
+  RatingUserDto
  
 } from '@shared/service-proxies/service-proxies';
 import {AllMoviedetailsComponent } from 'app/moviedetails/allmoviedetails/all-moviedetails.component'
@@ -41,17 +45,23 @@ class PagedMovieRequestDto extends PagedRequestDto {
 export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListDto> {
   movies: MovieListDto[] = [];
   rates: RatingListDto[]=[];
+  rateUser : RatingUserDto[]=[]
   genre = "";
   isActive: boolean | null;
   advancedFiltersVisible = false;
   isAdmin = false;
+  userId: number;
+  showButton = false;
+  RatedMovieIdList: Array<number> = [];
 
   constructor(
+    private _sessionService:AbpSessionService,
     private _permissionChecker: PermissionCheckerService,
     private _router: Router,
     injector: Injector,
     private _movieService: MovieServiceProxy,
-    private _modalService: BsModalService
+    private _modalService: BsModalService,
+    private _ratingService: RatingServiceProxy
   ) {
     super(injector);
   }
@@ -66,7 +76,8 @@ export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListD
 
 
   ngOnInit(): void {
-    
+    this.userId=this._sessionService.userId;
+    this.getAllRating();
     this.getAllMovies("",0,10);
     this.isAdmin = this._permissionChecker.isGranted("Pages.Users");
   }
@@ -83,6 +94,35 @@ export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListD
       console.log(data)
       this.movies=data.items;
       this.totalItems=data.totalCount;
+      // for (var movie of this.movies) {
+       
+      //   for (var rateU of this.rateUser){
+      //     if (movie.id == rateU.movieId){
+      //       movie.
+            
+      //     }
+
+      //   }
+      // }
+    });
+  }
+
+  getAllRating(){
+    this._ratingService.getRatingUser(this.userId)
+    .pipe(
+     finalize(() => {
+       console.log("Error")
+        //finishedCallback();
+     })
+   )
+    .subscribe( data => { 
+      console.log(data)
+      this.rateUser=data.items;
+      console.log(this.rateUser);
+      this.RatedMovieIdList = this.rateUser.map(function(item) { return item['movieId']; });
+      console.log("***");
+      console.log(this.RatedMovieIdList);
+     
  
     });
 
@@ -268,3 +308,18 @@ export class MoviedetailsComponent  extends PagedListingComponentBase<MovieListD
 
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
