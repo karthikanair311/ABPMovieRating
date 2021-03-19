@@ -100,8 +100,8 @@ namespace MovieRating.Movies
 
         public async Task< FullMovieDetailsListDto> GetMovieDetails(EntityDto<int> input)
         {
-            var movieData = await _movieRepository
-                .GetAllIncluding(p => p.MovieRatings)
+            var movieData = await _movieRepository.GetAll()
+                .Include(p => p.MovieRatings).ThenInclude(n => n.CreatorUser)
                 .Include(m => m.CastList).ThenInclude(n => n.ActorDetails)
                 .FirstOrDefaultAsync(m => m.Id == input.Id)
                 ;

@@ -1,4 +1,5 @@
 ﻿using Abp.AutoMapper;
+using MovieRating.Users.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,7 @@ namespace MovieRating.RatingInfo.Dto
         public int ReviewStar { get; set; }
 
         public int MovieId { get; set; }
+        public UserDto CreatorUser { get; set; }
+        public DateTime CreationTime { get; set; }
     }
 }

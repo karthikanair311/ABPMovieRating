@@ -17,8 +17,8 @@ import { EditActorComponent } from './edit-actor/edit-actor.component';
 import { PermissionCheckerService } from 'abp-ng2-module';
 
 
-class PagedUsersRequestDto extends PagedRequestDto {
-  keyword: string;
+class PagedActorRequestDto extends PagedRequestDto {
+  actorGender: string;
   isActive: boolean | null;
 }
 
@@ -29,7 +29,7 @@ class PagedUsersRequestDto extends PagedRequestDto {
 })
 export class ActordetailsComponent extends PagedListingComponentBase<ActorListDto> {
   actors: ActorListDto[] = [];
-  keyword = '';
+  actorGender = '';
   isActive: boolean | null;
   advancedFiltersVisible = false;
   isAdmin = false;
@@ -69,7 +69,7 @@ export class ActordetailsComponent extends PagedListingComponentBase<ActorListDt
   }
 
   createActor(): void {
-   // this.showCreateOrEditUserDialog();
+    this.showCreateOrEditActor();
   }
 
   editActor(user: UserDto): void {
@@ -79,20 +79,20 @@ export class ActordetailsComponent extends PagedListingComponentBase<ActorListDt
   
 
   clearFilters(): void {
-    this.keyword = '';
+    this.actorGender = '';
     this.isActive = undefined;
     this.getDataPage(1);
   }
 
   protected list(
-    request: PagedUsersRequestDto,
+    request: PagedActorRequestDto,
     pageNumber: number,
     finishedCallback: Function
   ): void {
-    request.keyword = this.keyword;
+    request.actorGender = this.actorGender;
     request.isActive = this.isActive;
 
-       this._actorService.getAll("")
+       this._actorService.getAll(request.actorGender)
     .pipe(
      finalize(() => {
        console.log("Error")
@@ -138,6 +138,31 @@ export class ActordetailsComponent extends PagedListingComponentBase<ActorListDt
   }
 
  
+  private showCreateOrEditActor (id?: number): void {
+    let createOrEditActor: BsModalRef;
+    if (!id) {
+      createOrEditActor = this._modalService.show(
+        CreateActorComponent,
+        {
+          class: 'modal-lg',
+        }
+      );
+    } else {
+      createOrEditActor = this._modalService.show(
+        EditActorComponent,
+        {
+          class: 'modal-lg',
+          initialState: {
+            id: id,
+          },
+        }
+      );
+    }
+
+    createOrEditActor.content.onSave.subscribe(() => {
+      this.refresh();
+    });
+  }
 
   
 

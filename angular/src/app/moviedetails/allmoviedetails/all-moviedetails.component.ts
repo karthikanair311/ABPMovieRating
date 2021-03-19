@@ -29,9 +29,9 @@ class PagedAuditlogsRequestDto extends PagedRequestDto {
   styleUrls: ['./all-moviedetails.component.css']
 })
 export class AllMoviedetailsComponent extends PagedListingComponentBase<UserDto> {
-  alldets: FullMovieDetailsListDto[] = [];
-  alldetjson : any;
-  alldetsstring : any;
+  alldets: FullMovieDetailsListDto;
+  // alldetjson : any;
+  // alldetsstring : any;
   apiName = '';
   isActive: boolean | null;
   advancedFiltersVisible = false;
@@ -64,12 +64,16 @@ export class AllMoviedetailsComponent extends PagedListingComponentBase<UserDto>
     .subscribe( (data) => { 
       console.log("------")
       console.log(data)
+      console.log(data.title)
+      this.alldets = data;
+      //this.alldets.movieRatings
+
       
-      this.alldetsstring=JSON.stringify(data); 
-      console.log(this.alldetsstring);
-      this.alldetjson = JSON.parse(this.alldetsstring);
-      console.log(this.alldetjson); 
-      console.log(this.alldetjson.castList[0].actorName);
+      // this.alldetsstring=JSON.stringify(data); 
+      // console.log(this.alldetsstring);
+      // this.alldetjson = JSON.parse(this.alldetsstring);
+      // console.log(this.alldetjson); 
+      // console.log(this.alldetjson.castList[0].actorName);
       //console.log(this.alldets)
       //this.alldets=data.title;
      // this.totalItems=data.totalCount;
